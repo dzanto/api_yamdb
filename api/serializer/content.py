@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from api_yamdb.models.content import Categories, Genres, Titles
+from api.model.content import Categories, Genres, Titles
 
 
 class CategorySerializer(serializers.ModelSerializer):

@@ -11,7 +11,7 @@ class Test01UserAPI:
         response = client.get('/api/v1/users/')
 
         assert response.status_code != 404, \
-            'Страница `/api/v1/users/` не найдена, проверьте этот адрес в *urls.py*'
+            'Страница `/api/v1/users/` не найдена, проверьте этот адрес в *url.py*'
 
         assert response.status_code == 401, \
             'Проверьте, что при GET запросе `/api/v1/users/` без токена авторизации возвращается статус 401'
@@ -21,7 +21,7 @@ class Test01UserAPI:
         response = client.get(f'/api/v1/users/{admin.username}/')
 
         assert response.status_code != 404, \
-            'Страница `/api/v1/users/{username}/` не найдена, проверьте этот адрес в *urls.py*'
+            'Страница `/api/v1/users/{username}/` не найдена, проверьте этот адрес в *url.py*'
 
         assert response.status_code == 401, \
             'Проверьте, что при GET запросе `/api/v1/users/{username}/` без токена авторизации возвращается статус 401'
@@ -31,7 +31,7 @@ class Test01UserAPI:
         response = client.get(f'/api/v1/users/me/')
 
         assert response.status_code != 404, \
-            'Страница `/api/v1/users/me/` не найдена, проверьте этот адрес в *urls.py*'
+            'Страница `/api/v1/users/me/` не найдена, проверьте этот адрес в *url.py*'
 
         assert response.status_code == 401, \
             'Проверьте, что при GET запросе `/api/v1/users/me/` без токена авторизации возвращается статус 401'
@@ -40,7 +40,7 @@ class Test01UserAPI:
     def test_04_users_get_auth(self, user_client, admin):
         response = user_client.get('/api/v1/users/')
         assert response.status_code != 404, \
-            'Страница `/api/v1/users/` не найдена, проверьте этот адрес в *urls.py*'
+            'Страница `/api/v1/users/` не найдена, проверьте этот адрес в *url.py*'
         assert response.status_code == 200, \
             'Проверьте, что при GET запросе `/api/v1/users/` с токеном авторизации возвращается статус 200'
         data = response.json()
@@ -143,7 +143,7 @@ class Test01UserAPI:
         user, moderator = create_users_api(user_client)
         response = user_client.get(f'/api/v1/users/{admin.username}/')
         assert response.status_code != 404, \
-            'Страница `/api/v1/users/{username}/` не найдена, проверьте этот адрес в *urls.py*'
+            'Страница `/api/v1/users/{username}/` не найдена, проверьте этот адрес в *url.py*'
         assert response.status_code == 200, \
             'Проверьте, что при GET запросе `/api/v1/users/{username}/` с токеном авторизации возвращается статус 200'
         response_data = response.json()

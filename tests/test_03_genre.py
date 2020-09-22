@@ -9,7 +9,7 @@ class Test03GenreAPI:
     def test_01_genre_not_auth(self, client):
         response = client.get('/api/v1/genres/')
         assert response.status_code != 404, \
-            'Страница `/api/v1/genres/` не найдена, проверьте этот адрес в *urls.py*'
+            'Страница `/api/v1/genres/` не найдена, проверьте этот адрес в *url.py*'
         assert response.status_code == 200, \
             'Проверьте, что при GET запросе `/api/v1/genres/` без токена авторизации возвращается статус 200'
 
