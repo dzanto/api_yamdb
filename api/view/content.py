@@ -5,15 +5,7 @@ from rest_framework.permissions import IsAdminUser
 from api.permissions import AdminResourcePermission
 
 
-# class CategoryViewSet(viewsets.ModelViewSet):
-#     queryset = Categories.objects.all()
-#     serializer_class = CategorySerializer
-#     filter_backends = [filters.SearchFilter]
-#     search_fields = ['=name']
-#     permission_classes = [AdminResourcePermission]
-
-
-class CategoryListAPIView(generics.ListCreateAPIView):
+class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Categories.objects.all()
     serializer_class = CategorySerializer
     filter_backends = [filters.SearchFilter]
@@ -21,16 +13,24 @@ class CategoryListAPIView(generics.ListCreateAPIView):
     permission_classes = [AdminResourcePermission]
 
 
-# class CategoryCreateAPIView(generics.CreateAPIView):
+# class CategoryListAPIView(generics.ListCreateAPIView):
+#     queryset = Categories.objects.all()
+#     serializer_class = CategorySerializer
+#     filter_backends = [filters.SearchFilter]
+#     search_fields = ['=name']
+#     permission_classes = [AdminResourcePermission]
+#
+#
+# # class CategoryCreateAPIView(generics.CreateAPIView):
+# #     queryset = Categories.objects.all()
+# #     serializer_class = CategorySerializer
+# #     permission_classes = [AdminResourcePermission]
+#
+#
+# class CategoryDestroyAPIView(generics.DestroyAPIView):
 #     queryset = Categories.objects.all()
 #     serializer_class = CategorySerializer
 #     permission_classes = [AdminResourcePermission]
-
-
-class CategoryDestroyAPIView(generics.DestroyAPIView):
-    queryset = Categories.objects.all()
-    serializer_class = CategorySerializer
-    permission_classes = [AdminResourcePermission]
 
 
 
