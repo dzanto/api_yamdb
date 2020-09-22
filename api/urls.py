@@ -1,12 +1,18 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from api.view import content as views
-
+# from api import views
+from api.view import content
+# from rest_framework.authtoken.views import obtain_auth_token
+# # from rest_framework_simplejwt.views import (
+# #     TokenObtainPairView,
+# #     TokenRefreshView,
+# # )
+#
+#
 router = DefaultRouter()
-router.register('categories', views.CategoryViewSet)
-router.register('genres', views.GenreViewSet)
-router.register('titles', views.TitleViewSet)
-
+router.register('categories', content.CategoryViewSet)
+router.register('genres', content.GenreViewSet)
+router.register('titles', content.TitleViewSet)
 
 urlpatterns = [
     # path('v1/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),

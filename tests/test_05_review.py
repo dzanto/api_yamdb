@@ -10,7 +10,7 @@ class Test05ReviewAPI:
         titles, _, _ = create_titles(user_client)
         response = client.get(f'/api/v1/titles/{titles[0]["id"]}/reviews/')
         assert response.status_code != 404, \
-            'Страница `/api/v1/titles/{title_id}/reviews/` не найдена, проверьте этот адрес в *url.py*'
+            'Страница `/api/v1/titles/{title_id}/reviews/` не найдена, проверьте этот адрес в *urls.py*'
         assert response.status_code == 200, \
             'Проверьте, что при GET запросе `/api/v1/titles/{title_id}/reviews/` ' \
             'без токена авторизации возвращается статус 200'
@@ -133,7 +133,7 @@ class Test05ReviewAPI:
         reviews, titles, user, moderator = create_reviews(user_client, admin)
         response = client.get(f'/api/v1/titles/{titles[0]["id"]}/reviews/{reviews[0]["id"]}/')
         assert response.status_code != 404, \
-            'Страница `/api/v1/titles/{title_id}/reviews/{review_id}/` не найдена, проверьте этот адрес в *url.py*'
+            'Страница `/api/v1/titles/{title_id}/reviews/{review_id}/` не найдена, проверьте этот адрес в *urls.py*'
         assert response.status_code == 200, \
             'Проверьте, что при GET запросе `/api/v1/titles/{title_id}/reviews/{review_id}/` ' \
             'без токена авторизации возвращается статус 200'
