@@ -1,12 +1,12 @@
-POST      http://127.0.0.1:8000/api/v1/titles/
+GET       http://127.0.0.1:8000/api/v1/titles/
 Content-Type: application/json
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjAxNTQxMzY3LCJqdGkiOiI1ZTY1ZTUxODVjYWU0ZjQzYTYxMzAxMjQ4NzY0M2JhZCIsInVzZXJfaWQiOjJ9.1SoUhqTHq1f81xm3jbtx074j0GYc0D06R18BcMwlKPE
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjAxNTUwOTg2LCJqdGkiOiJjNzVhY2ZhY2ExMDQ0ZGUyYWI1Njg3NWUzODlmYzcyZCIsInVzZXJfaWQiOjJ9.-Yz3fN9kN6O0G8FWFXMtp2DAegaHEC2AT30Z-pFAUEw
 
 {
   "name": "ОНО",
   "category": "book",
   "year": "1991",
-  "genre": [ "horror"], 
+  "genre": ["horror", "comedy"], 
   "description": "Клоун-монстр"
   
 }
