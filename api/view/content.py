@@ -12,13 +12,13 @@ class CategoryListCreateAPIView(generics.ListCreateAPIView):
     serializer_class = CategorySerializer
     filter_backends = [filters.SearchFilter]
     search_fields = ['=name']
-    permission_classes = [AdminResourcePermission, permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [AdminResourcePermission]
 
 
 class CategoryDestroyAPIView(generics.DestroyAPIView):
     queryset = Categories.objects.all()
     serializer_class = CategorySerializer
-    permission_classes = [AdminResourcePermission, permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [AdminResourcePermission]
 
     def get_object(self):
         obj = get_object_or_404(Categories, slug=self.kwargs.get('slug'))
@@ -30,13 +30,13 @@ class GenreListCreateAPIView(generics.ListCreateAPIView):
     serializer_class = GenreSerializer
     filter_backends = [filters.SearchFilter]
     search_fields = ['=name']
-    permission_classes = [AdminResourcePermission, permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly, AdminResourcePermission]
 
 
 class GenreDestroyAPIView(generics.DestroyAPIView):
     queryset = Genres.objects.all()
     serializer_class = GenreSerializer
-    permission_classes = [AdminResourcePermission, permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [AdminResourcePermission]
 
     def get_object(self):
         obj = get_object_or_404(Genres, slug=self.kwargs.get('slug'))
@@ -45,7 +45,6 @@ class GenreDestroyAPIView(generics.DestroyAPIView):
 
 class TitleViewSet(viewsets.ModelViewSet):
     queryset = Titles.objects.all()
-    # serializer_class = TitleSerializer
     filter_class = GenreCategoryFilter
     filter_backends = [DjangoFilterBackend]
 
