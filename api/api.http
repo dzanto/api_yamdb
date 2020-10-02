@@ -1,5 +1,12 @@
-DELETE     http://127.0.0.1:8000/api/v1/genres/comedy/
+POST    http://127.0.0.1:8000/api/v1/titles/
 Content-Type: application/json
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjAxNTc3MDAxLCJqdGkiOiI4ZmYyNDIzMjY5OTU0YWRjYjE0MjFiODk4MzliZjNhNSIsInVzZXJfaWQiOjJ9.etwtv1KWf1e1AjD0ipfzczh3v81qqaDHoAw1V7Sd6S4
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjAxNjYzOTQ5LCJqdGkiOiI5Y2UyZTg1YWUwYjQ0Mzg1OTJkYmJhNDI5MjZiMjU0ZCIsInVzZXJfaWQiOjJ9.8MAqr6lAM9fdWwfWj7Lh9msgZEpwrWP2NtJAsR_nSsw
 
 
+{
+  "genre": ["horror"],
+  "category":"book",
+  "name": "lotr",
+  "year": "1991",
+  "description": "властелин"
+}

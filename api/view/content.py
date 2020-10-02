@@ -1,7 +1,8 @@
 from rest_framework import viewsets, filters, generics
 from api.model.content import Categories, Genres, Titles
-from api.serializer.content import CategorySerializer, GenreSerializer, TitleSerializer
+from api.serializer.content import CategorySerializer, GenreSerializer, TitleReadSerializer, TitleWriteSerializer
 from api.permissions import AdminResourcePermission
+from django.db.models import Avg
 
 
 class CategoryListCreateAPIView(generics.ListCreateAPIView):
@@ -37,5 +38,12 @@ class GenreDestroyAPIView(generics.DestroyAPIView):
 
 class TitleViewSet(viewsets.ModelViewSet):
     queryset = Titles.objects.all()
-    serializer_class = TitleSerializer
+    
     # permission_classes = [AdminResourcePermission]
+
+    def get_serializer_class(self):
+        if self.request.method == 'POST':
+            return TitleWriteSerializer
+        elif self.request.method == 'PATCH':
+            return TitleWriteSerializer
+        return TitleReadSerializer
