@@ -1,7 +1,10 @@
 from rest_framework import viewsets, filters, generics
 from api.model.content import Categories, Genres, Titles
-from api.serializer.content import CategorySerializer, GenreSerializer, TitleSerializer
+from api.serializer.content import CategorySerializer, GenreSerializer, TitleSerializer, UpdateTitleSerializer
 from api.permissions import AdminResourcePermission
+from rest_framework.generics import get_object_or_404
+from api.filters import GenreCategoryFilter
+from django_filters.rest_framework import DjangoFilterBackend
 
 
 class CategoryListCreateAPIView(generics.ListCreateAPIView):
