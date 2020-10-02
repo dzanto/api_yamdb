@@ -15,10 +15,12 @@ class CategoryListCreateAPIView(generics.ListCreateAPIView):
 class CategoryDestroyAPIView(generics.DestroyAPIView):
     queryset = Categories.objects.all()
     serializer_class = CategorySerializer
+    lookup_field = 'slug'
     # permission_classes = [AdminResourcePermission]
 
 
 class GenreListCreateAPIView(generics.ListCreateAPIView):
+    
     queryset = Genres.objects.all()
     serializer_class = GenreSerializer
     filter_backends = [filters.SearchFilter]
@@ -29,6 +31,7 @@ class GenreListCreateAPIView(generics.ListCreateAPIView):
 class GenreDestroyAPIView(generics.DestroyAPIView):
     queryset = Genres.objects.all()
     serializer_class = GenreSerializer
+    lookup_field = 'slug'
     # permission_classes = [AdminResourcePermission]
 
 

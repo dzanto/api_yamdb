@@ -1,8 +1,8 @@
 from rest_framework import viewsets, filters, permissions, generics, status
 from rest_framework.viewsets import ViewSetMixin
 from django.shortcuts import get_object_or_404 
-from api.serializer.feedback import CommentSerializer, ReviewSerializer
-from api.model.feedback import Comment, Review
+from api.serializer.feedback import CommentSerializer, ReviewSerializer, UserSerializer
+from api.model.feedback import Comment, Review, User
 from api.model.content import Titles
 from api.permissions import IsOwnerOrReadOnly 
 from rest_framework.exceptions import ParseError
@@ -38,3 +38,11 @@ class ReviewViewSet(viewsets.ModelViewSet):
             serializer.save(author=self.request.user, title=title) 
         except IntegrityError:
             raise ParseError(detail="Автор уже отставил свой обзор на этот пост")
+
+class UserViewSet(viewsets.ModelViewSet): 
+    queryset=User.objects.all()
+    serializer_class = UserSerializer 
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly, 
+                          IsOwnerOrReadOnly] 
+     
+    

@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from api.model.content import Categories, Genres, Titles
+from rest_framework.validators import UniqueValidator
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -10,11 +11,12 @@ class CategorySerializer(serializers.ModelSerializer):
 
 
 class GenreSerializer(serializers.ModelSerializer):
+
+        
     class Meta:
         fields = '__all__'
         model = Genres
-
-
+        
 class TitleSerializer(serializers.ModelSerializer):
     category = serializers.SlugRelatedField(
         queryset=Categories.objects.all(),
