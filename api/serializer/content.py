@@ -6,7 +6,10 @@ from rest_framework.validators import UniqueValidator
 class CategorySerializer(serializers.ModelSerializer):
     # slug = serializers.SlugRelatedField(
     #     queryset=Categories.objects.all(),
-    #     slug_field='slug',
+    #     slug_field='slug')
+    # name = serializers.SlugRelatedField(
+    #     queryset=Categories.objects.all(),
+    #     slug_field='slug')
     #     validators=[UniqueValidator(queryset=Categories.objects.all())])
 
     class Meta:
@@ -26,18 +29,34 @@ class GenreSerializer(serializers.ModelSerializer):
 
 
 class TitleSerializer(serializers.ModelSerializer):
-    rating = serializers.CharField()
+    # rating = serializers.DecimalField(read_only=True, max_digits=10,
+    #                                   decimal_places=1, coerce_to_string=False)
     category = CategorySerializer(read_only=True)
     genre = GenreSerializer(read_only=True, many=True)
-    # category = serializers.StringRelatedField(
-    #     # queryset=Categories.objects.all(),
-    #     # slug_field='slug'
+
+    # category = serializers.SlugRelatedField(
+    #     queryset=Categories.objects.all(),
+    #     slug_field='slug',
     # )
     # genre = serializers.SlugRelatedField(
     #     queryset=Genres.objects.all(),
     #     slug_field='slug', many=True
     # )
 
+    class Meta:
+        fields = '__all__'
+        model = Titles
+
+
+class UpdateTitleSerializer(serializers.ModelSerializer):
+    category = serializers.SlugRelatedField(
+        queryset=Categories.objects.all(),
+        slug_field='slug',
+    )
+    genre = serializers.SlugRelatedField(
+        queryset=Genres.objects.all(),
+        slug_field='slug', many=True
+    )
     class Meta:
         fields = '__all__'
         model = Titles
