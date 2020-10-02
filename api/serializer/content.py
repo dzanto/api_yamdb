@@ -4,13 +4,6 @@ from rest_framework.validators import UniqueValidator
 
 
 class CategorySerializer(serializers.ModelSerializer):
-    # slug = serializers.SlugRelatedField(
-    #     queryset=Categories.objects.all(),
-    #     slug_field='slug')
-    # name = serializers.SlugRelatedField(
-    #     queryset=Categories.objects.all(),
-    #     slug_field='slug')
-    #     validators=[UniqueValidator(queryset=Categories.objects.all())])
 
     class Meta:
         fields = ['name', 'slug']
@@ -18,11 +11,6 @@ class CategorySerializer(serializers.ModelSerializer):
 
 
 class GenreSerializer(serializers.ModelSerializer):
-    # slug = serializers.SlugRelatedField(
-    #     queryset=Genres.objects.all(),
-    #     slug_field='slug',
-    #     validators=[UniqueValidator(queryset=Genres.objects.all())])
-
     class Meta:
         fields = ['name', 'slug']
         model = Genres
@@ -56,7 +44,9 @@ class UpdateTitleSerializer(serializers.ModelSerializer):
     genre = serializers.SlugRelatedField(
         queryset=Genres.objects.all(),
         slug_field='slug', many=True
+        
     )
+
     class Meta:
         fields = '__all__'
         model = Titles

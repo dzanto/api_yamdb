@@ -1,10 +1,7 @@
-from rest_framework import viewsets, filters, generics, permissions
+from rest_framework import viewsets, filters, generics
 from api.model.content import Categories, Genres, Titles
-from api.serializer.content import CategorySerializer, GenreSerializer, TitleSerializer, UpdateTitleSerializer
+from api.serializer.content import CategorySerializer, GenreSerializer, TitleSerializer
 from api.permissions import AdminResourcePermission
-from rest_framework.generics import get_object_or_404
-from django_filters.rest_framework import DjangoFilterBackend
-from api.filters import GenreCategoryFilter
 
 
 class CategoryListCreateAPIView(generics.ListCreateAPIView):
@@ -12,7 +9,7 @@ class CategoryListCreateAPIView(generics.ListCreateAPIView):
     serializer_class = CategorySerializer
     filter_backends = [filters.SearchFilter]
     search_fields = ['=name']
-    permission_classes = [AdminResourcePermission]
+    # permission_classes = [AdminResourcePermission]
 
 
 class CategoryDestroyAPIView(generics.DestroyAPIView):
@@ -23,6 +20,8 @@ class CategoryDestroyAPIView(generics.DestroyAPIView):
     def get_object(self):
         obj = get_object_or_404(Categories, slug=self.kwargs.get('slug'))
         return obj
+    lookup_field = 'slug'
+    # permission_classes = [AdminResourcePermission]
 
 
 class GenreListCreateAPIView(generics.ListCreateAPIView):
@@ -30,7 +29,7 @@ class GenreListCreateAPIView(generics.ListCreateAPIView):
     serializer_class = GenreSerializer
     filter_backends = [filters.SearchFilter]
     search_fields = ['=name']
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly, AdminResourcePermission]
+    # permission_classes = [AdminResourcePermission]
 
 
 class GenreDestroyAPIView(generics.DestroyAPIView):
@@ -41,6 +40,8 @@ class GenreDestroyAPIView(generics.DestroyAPIView):
     def get_object(self):
         obj = get_object_or_404(Genres, slug=self.kwargs.get('slug'))
         return obj
+    lookup_field = 'slug'
+    # permission_classes = [AdminResourcePermission]
 
 
 class TitleViewSet(viewsets.ModelViewSet):

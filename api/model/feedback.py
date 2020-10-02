@@ -12,9 +12,13 @@ class Review(models.Model):
     title = models.ForeignKey(Titles, blank=True, on_delete=models.CASCADE, related_name="reviews")
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="review_author")
 
+    
+    class Meta:
+        unique_together=['author', 'title']
+
     def __str__(self):
         return self.text
-    
+
 class Comment(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="comments")
     review = models.ForeignKey(Review, on_delete=models.CASCADE, related_name="comments")
