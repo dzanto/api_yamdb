@@ -20,8 +20,7 @@ class GenreCategoryFilter(filters.FilterSet):
         model = Titles
         fields = ['genre', 'category', 'name', 'year']
 
-from django_filters import rest_framework as filters
-    
+
 class TitleFilter(filters.FilterSet):
     genre = filters.CharFilter(field_name='genre__slug', lookup_expr='iexact')
     category = filters.CharFilter(field_name="category__slug")
@@ -30,5 +29,5 @@ class TitleFilter(filters.FilterSet):
 
     class Meta:
         model = Titles
-        fields = ['genre','category','name','year'] 
+        fields = ['genre', 'category', 'name', 'year']
 

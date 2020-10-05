@@ -46,8 +46,6 @@ class TitleViewSet(viewsets.ModelViewSet):
     # permission_classes = [AdminResourcePermission]
 
     def get_serializer_class(self):
-        if self.request.method == 'POST':
-            return TitleWriteSerializer
-        elif self.request.method == 'PATCH':
+        if self.request.method in ['PATCH', 'POST']:
             return TitleWriteSerializer
         return TitleReadSerializer
