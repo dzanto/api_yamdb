@@ -1,8 +1,10 @@
 from rest_framework import viewsets, filters, generics
+from django_filters.rest_framework import DjangoFilterBackend
 from api.model.content import Categories, Genres, Titles
 from api.serializer.content import CategorySerializer, GenreSerializer, TitleReadSerializer, TitleWriteSerializer
 from api.permissions import AdminResourcePermission
 from django.db.models import Avg
+from api.filters import TitleFilter
 
 
 class CategoryListCreateAPIView(generics.ListCreateAPIView):
@@ -37,7 +39,9 @@ class GenreDestroyAPIView(generics.DestroyAPIView):
 
 
 class TitleViewSet(viewsets.ModelViewSet):
-    queryset = Titles.objects.all()
+    queryset = Titles.objects.all().annotate(rating=Avg('reviews__score'))
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = TitleFilter
     
     # permission_classes = [AdminResourcePermission]
 

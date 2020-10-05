@@ -13,8 +13,6 @@ class Review(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="review_author")
 
     
-    class Meta:
-        unique_together=['author', 'title']
 
     def __str__(self):
         return self.text
