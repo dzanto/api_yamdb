@@ -12,11 +12,11 @@ class CategorySerializer(serializers.ModelSerializer):
 
 class GenreSerializer(serializers.ModelSerializer):
 
-        
     class Meta:
         fields = ['name', 'slug']
         model = Genres
-        
+
+
 class TitleWriteSerializer(serializers.ModelSerializer):
     category = serializers.SlugRelatedField(
         queryset=Categories.objects.all(),
@@ -27,7 +27,6 @@ class TitleWriteSerializer(serializers.ModelSerializer):
         slug_field='slug', many=True
         
     )
-
 
     class Meta:
         fields = '__all__'
