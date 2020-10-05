@@ -34,11 +34,8 @@ class ReviewViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):  
         title = get_object_or_404(Titles, pk=self.kwargs['id'])
         
-        try:
-            serializer.save(author=self.request.user, title=title) 
-        except IntegrityError:
-            raise ParseError(detail="Автор уже отставил свой обзор на этот пост")
-
+        serializer.save(author=self.request.user, title=title) 
+        
 class UserViewSet(viewsets.ModelViewSet): 
     queryset=User.objects.all()
     serializer_class = UserSerializer 
