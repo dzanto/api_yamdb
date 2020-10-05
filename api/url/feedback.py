@@ -14,23 +14,12 @@ router = DefaultRouter()
 router.register(
     'titles/(?P<id>\d+)/reviews/(?P<review_pk>\d+)/comments', 
     CommentViewSet, basename ='perform_create_reviews'
-    )      
+)
 router.register(
     'titles/(?P<id>\d+)/reviews', 
     ReviewViewSet, basename ='perform_create_reviews'
-    )      
-router.register('users', UserViewSet)   
+)
 
 urlpatterns = [
-        # path(
-        #     'v1/token/',
-        #     TokenObtainPairView.as_view(),
-        #     name='token_obtain_pair'
-        # ),
-        # path(
-        #     'v1/token/refresh/',
-        #     TokenRefreshView.as_view(),
-        #     name='token_refresh'
-        # ),
-        path('v1/', include(router.urls)),   
+        path('v1/', include(router.urls)),
     ]

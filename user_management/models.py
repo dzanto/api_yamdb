@@ -11,6 +11,7 @@ class User(AbstractUser):
         (MODER, 'Moderator'),
         (ADMIN, 'Admin')
     ]
+    password = models.CharField(max_length=100, blank=True)
     email = models.EmailField(unique=True, blank=False)
     about = models.TextField(max_length=256, blank=True)
     rank = models.SlugField(
