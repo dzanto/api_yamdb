@@ -3,6 +3,7 @@ from rest_framework.permissions import BasePermission
 
 
 class ReviewCreatePermission(BasePermission):
+
     def has_object_permission(self, request, view, obj):
         if request.method in ('GET', 'POST'):
             return True
@@ -13,7 +14,7 @@ class ReviewCreatePermission(BasePermission):
 class AdminResourcePermission(BasePermission):
 
     def has_permission(self, request, view):
-        if request.method in ('DELETE', 'POST', 'PATCH'):
+        if request.method in ('DELETE', 'POST', 'PATCH') and request.user.is_authenticated:
             return request.user.is_staff or request.user.role == 'admin'
         return True
 
