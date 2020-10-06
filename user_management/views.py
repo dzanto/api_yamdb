@@ -45,6 +45,9 @@ class EmailConfirmationAPIView(APIView):
 
     def post(self, request):
         email = request.data.get('email')
+        if not email:
+            return Response(status.HTTP_400_BAD_REQUEST)
+
         code = ''.join(choice(ascii_uppercase) for i in range(9))
         username = 'User_' + ''.join(choice(ascii_letters) for i in range(6))
         try:
@@ -73,14 +76,17 @@ class EmailConfirmationAPIView(APIView):
 
 
 class MyProfileAPIView(APIView):
-    permission_classes = [IsAuthenticated]
 
     def get(self, request):
+        if not self.request.user.is_authenticated:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
         user = get_object_or_404(User, username=request.user.username)
         serializer = UserSerializer(user)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def patch(self, request):
+        if not self.request.user.is_authenticated:
+            return Response(status=status.HTTP_403_FORBIDDEN)
         user = get_object_or_404(User, username=request.user.username)
         serializer = UserSerializer(user, data=request.data, partial=True)
         if serializer.is_valid():
@@ -93,10 +99,7 @@ class UsersViewSet(ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserExtendedSerializer
     lookup_field = 'username'
-    permission_classes = (SiteAdminPermission,)
-
-    def perform_create(self, serializer):
-        serializer.save()
+    permission_classes = [SiteAdminPermission,]
 
     def perform_update(self, serializer):
         serializer.save(data=self.request.data)

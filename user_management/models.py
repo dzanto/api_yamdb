@@ -4,16 +4,16 @@ from django.contrib.auth.models import AbstractUser
 
 class User(AbstractUser):
     PERMISSION_STATUSES = [
-        ('USR', 'User'),
-        ('MOD', 'Moderator'),
-        ('ADM', 'Admin')
+        ('user', 'User'),
+        ('moderator', 'Moderator'),
+        ('admin', 'Admin')
     ]
     password = models.CharField(max_length=100, blank=True)
     email = models.EmailField(unique=True, blank=False)
-    about = models.TextField(max_length=256, blank=True)
-    rank = models.SlugField(
-        max_length=3,
+    bio = models.TextField(max_length=256, blank=True)
+    role = models.SlugField(
+        max_length=9,
         choices=PERMISSION_STATUSES,
-        default='USR'
+        default='user'
     )
     auth_code = models.CharField(max_length=9, blank=True)

@@ -1,14 +1,15 @@
 from rest_framework import viewsets, filters, permissions, generics, status
 from rest_framework.viewsets import ViewSetMixin
-from django.shortcuts import get_object_or_404 
-from api.serializer.feedback import CommentSerializer, ReviewSerializer, UserSerializer
-from api.model.feedback import Comment, Review, User
-from api.model.content import Titles
-from api.permissions import IsOwnerOrReadOnly 
+from django.shortcuts import get_object_or_404
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.exceptions import ParseError
 from django.db import IntegrityError
 
-from api.permissions import AdminResourcePermission, StaffResourcePermission
+from api.serializer.feedback import CommentSerializer, ReviewSerializer, UserSerializer
+from api.model.feedback import Comment, Review, User
+from api.model.content import Titles
+from api.permissions import IsOwnerOrReadOnly
+from api.permissions import AdminResourcePermission, StaffResourcePermission, ReviewCreatePermission
 
 
 class CommentViewSet(viewsets.ModelViewSet): 
@@ -29,8 +30,16 @@ class CommentViewSet(viewsets.ModelViewSet):
 
 class ReviewViewSet(viewsets.ModelViewSet): 
     serializer_class = ReviewSerializer
-    permission_classes = [IsOwnerOrReadOnly, AdminResourcePermission]
-     
+    permission_classes = [
+        ReviewCreatePermission,
+        StaffResourcePermission,
+        AdminResourcePermission,
+    ]
+
+    def get_permissions(self):
+        if self.action == 'create':
+            self.permission_classes = [IsAuthenticatedOrReadOnly]
+
     def get_queryset(self): 
         return Review.objects.filter(title=self.kwargs['id']) 
          

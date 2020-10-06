@@ -1,11 +1,13 @@
 from rest_framework import viewsets, filters, generics
 from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from api.model.content import Categories, Genres, Titles
 from api.serializer.content import CategorySerializer, GenreSerializer, TitleReadSerializer, TitleWriteSerializer
 from api.permissions import AdminResourcePermission
 from django.db.models import Avg
 from api.filters import TitleFilter
 from rest_framework.generics import get_object_or_404
+
 
 class CategoryListCreateAPIView(generics.ListCreateAPIView):
     queryset = Categories.objects.all()
@@ -41,8 +43,7 @@ class TitleViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filterset_class = TitleFilter
 
-    # permission_classes = [AdminResourcePermission]
-    permission_classes = [AdminResourcePermission]
+    permission_classes = [IsAuthenticatedOrReadOnly, AdminResourcePermission]
 
     def get_serializer_class(self):
         if self.request.method in ['PATCH', 'POST']:
