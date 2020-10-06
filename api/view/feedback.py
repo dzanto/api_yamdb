@@ -8,13 +8,17 @@ from api.permissions import IsOwnerOrReadOnly
 from rest_framework.exceptions import ParseError
 from django.db import IntegrityError
 
- 
+from api.permissions import AdminResourcePermission, StaffResourcePermission
+
 
 class CommentViewSet(viewsets.ModelViewSet): 
-    serializer_class = CommentSerializer 
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly, 
-                          IsOwnerOrReadOnly] 
-     
+    serializer_class = CommentSerializer
+    permission_classes = [
+        AdminResourcePermission,
+        StaffResourcePermission,
+        IsOwnerOrReadOnly,
+    ]
+
     def get_queryset(self): 
         return Comment.objects.filter(review=self.kwargs['review_pk']) 
          
@@ -25,8 +29,7 @@ class CommentViewSet(viewsets.ModelViewSet):
 
 class ReviewViewSet(viewsets.ModelViewSet): 
     serializer_class = ReviewSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly, 
-                          IsOwnerOrReadOnly] 
+    permission_classes = [IsOwnerOrReadOnly, AdminResourcePermission]
      
     def get_queryset(self): 
         return Review.objects.filter(title=self.kwargs['id']) 
@@ -39,10 +42,8 @@ class ReviewViewSet(viewsets.ModelViewSet):
         except IntegrityError:
             raise ParseError(detail="Автор уже отставил свой обзор на этот пост")
 
+
 class UserViewSet(viewsets.ModelViewSet): 
-    queryset=User.objects.all()
+    queryset = User.objects.all()
     serializer_class = UserSerializer 
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly, 
-                          IsOwnerOrReadOnly] 
-     
-    
+    permission_classes = [IsOwnerOrReadOnly]

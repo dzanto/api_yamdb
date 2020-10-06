@@ -34,7 +34,7 @@ class ReviewSerializer(serializers.ModelSerializer):
     
     
     class Meta: 
-        fields = ('text', 'score', 'title', 'author')
+        fields = ('id', 'text', 'score', 'title', 'author')
         model = Review
 
 

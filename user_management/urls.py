@@ -12,4 +12,3 @@ urlpatterns = [
     path('v1/users/me/', views.MyProfileAPIView.as_view()),
     path('v1/', include(router_v1.urls)),
 ]
-

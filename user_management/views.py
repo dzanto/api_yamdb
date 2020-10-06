@@ -13,8 +13,8 @@ from rest_framework.generics import get_object_or_404
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from .models import User
-from .serializers import UserSerializer
 from .permissions import SiteAdminPermission
+from .serializers import UserSerializer, UserExtendedSerializer
 
 
 def get_tokens_for_user(user):
@@ -91,44 +91,12 @@ class MyProfileAPIView(APIView):
 
 class UsersViewSet(ModelViewSet):
     queryset = User.objects.all()
-    serializer_class = UserSerializer
+    serializer_class = UserExtendedSerializer
     lookup_field = 'username'
     permission_classes = (SiteAdminPermission,)
 
     def perform_create(self, serializer):
-        serializer.save(data=self.request.data)
+        serializer.save()
 
     def perform_update(self, serializer):
         serializer.save(data=self.request.data)
-
-
-# class UserViewSet(viewsets.ModelViewSet):
-#     queryset = User.objects.all()
-#     serializer_class = UserSerializer
-#     lookup_field = 'username'
-#
-#     def get_permissions(self):
-#         if self.action in ['get', 'patch', 'delete']:
-#             permission_classes = [IsAuthenticated]
-#         else:
-#             permission_classes = [SiteAdminPermission]
-#         return [permission() for permission in permission_classes]
-#
-#     @action(detail=True, methods=['patch', 'get', 'delete'])
-#     def get(self, request):
-#         user_email = request.user.email
-#         user = get_object_or_404(User, email=user_email)
-#         serializer = UserSerializer(user, many=False)
-#         return Response(serializer.data)
-#
-#     def patch(self, request):
-#         user_email = request.user.email
-#         user = get_object_or_404(User, email=user_email)
-#         serializer = UserSerializer(user, data=request.data, partial=True)
-#         if serializer.is_valid():
-#             serializer.save()
-#             return Response(serializer.data)
-#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-#
-#     def delete(self, request):
-#         return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)

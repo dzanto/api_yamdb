@@ -3,13 +3,10 @@ from django.contrib.auth.models import AbstractUser
 
 
 class User(AbstractUser):
-    USER = 'USR'
-    MODER = 'MOD'
-    ADMIN = 'ADM'
     PERMISSION_STATUSES = [
-        (USER, 'User'),
-        (MODER, 'Moderator'),
-        (ADMIN, 'Admin')
+        ('USR', 'User'),
+        ('MOD', 'Moderator'),
+        ('ADM', 'Admin')
     ]
     password = models.CharField(max_length=100, blank=True)
     email = models.EmailField(unique=True, blank=False)
@@ -17,6 +14,6 @@ class User(AbstractUser):
     rank = models.SlugField(
         max_length=3,
         choices=PERMISSION_STATUSES,
-        default=USER
+        default='USR'
     )
     auth_code = models.CharField(max_length=9, blank=True)

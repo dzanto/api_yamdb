@@ -6,7 +6,15 @@ class AdminResourcePermission(BasePermission):
 
     def has_permission(self, request, view):
         if request.method in ('DELETE', 'POST', 'PATCH'):
-            return request.user.is_staff
+            return request.user.is_staff or request.user.rank == 'ADM'
+        return True
+
+
+class StaffResourcePermission(BasePermission):
+
+    def has_permission(self, request, view):
+        if request.method in ('DELETE', 'POST', 'PATCH'):
+            return request.user.is_staff or request.user.rank == 'MOD'
         return True
 
 
