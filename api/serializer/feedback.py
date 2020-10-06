@@ -44,7 +44,7 @@ class ReviewSerializer(serializers.ModelSerializer):
            raise serializers.ValidationError(message)
         return Review.objects.create(**validated_data)
     class Meta: 
-        fields = ('text', 'score', 'title', 'author')
+        fields = ('id', 'text', 'score', 'title', 'author')
         model = Review
     
 
