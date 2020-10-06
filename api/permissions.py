@@ -5,7 +5,7 @@ from rest_framework.permissions import BasePermission
 class AdminResourcePermission(BasePermission):
 
     def has_permission(self, request, view):
-        if request.method in ('DELETE', 'POST', 'PATCH'):
+        if request.method in ('DELETE', 'PATCH'):
             return request.user.is_staff or request.user.rank == 'ADM'
         return True
 
@@ -13,7 +13,7 @@ class AdminResourcePermission(BasePermission):
 class StaffResourcePermission(BasePermission):
 
     def has_permission(self, request, view):
-        if request.method in ('DELETE', 'POST', 'PATCH'):
+        if request.method in ('DELETE', 'PATCH'):
             return request.user.is_staff or request.user.rank == 'MOD'
         return True
 

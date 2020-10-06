@@ -1,6 +1,6 @@
 POST     http://127.0.0.1:8000/api/v1/titles/1/reviews/
 Content-Type: application/json
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjAxODkxNzUxLCJqdGkiOiIyODlmM2ZlZGY5ZGM0MGM2ODhiYThkZGQzYTVlZjk3NCIsInVzZXJfaWQiOjJ9.7C2K15U-IqTRHRR5FYsLuGeKrK5lfRsd2IhdHkMBUNo
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjAyMDI5OTQ1LCJqdGkiOiI0ZDA4NTRiZTY2OTU0ZDY5YmYzY2I3M2JjYTI2ZTgzYyIsInVzZXJfaWQiOjN9.hFCjI0Hc5ArC27Y5ysEpNGOemj3gUOULKOVpBjjY2Uw
 
 
 
@@ -9,6 +9,6 @@ Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiY
     "огонь"
   ,
   "score": 
-    "8"
+    "11"
   
 }

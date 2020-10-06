@@ -8,7 +8,7 @@ router = DefaultRouter()
 
 router.register(
     'titles/(?P<id>\d+)/reviews/(?P<review_pk>\d+)/comments', 
-    CommentViewSet, basename ='perform_create_reviews'
+    CommentViewSet, basename ='perform_create_comments'
 )
 router.register(
     'titles/(?P<id>\d+)/reviews', 

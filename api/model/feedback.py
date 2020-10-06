@@ -8,7 +8,7 @@ User = get_user_model()
 
 class Review(models.Model):
     text = models.TextField()
-    score = models .PositiveIntegerField(validators=[MinValueValidator(0), MaxValueValidator(10)])
+    score = models .PositiveIntegerField(validators=[MinValueValidator(0), MaxValueValidator(10, message="cool")])
     title = models.ForeignKey(Titles, blank=True, on_delete=models.CASCADE, related_name="reviews")
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="review_author")
 
