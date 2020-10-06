@@ -45,6 +45,9 @@ class EmailConfirmationAPIView(APIView):
 
     def post(self, request):
         email = request.data.get('email')
+        if not email:
+            return Response(status.HTTP_400_BAD_REQUEST)
+
         code = ''.join(choice(ascii_uppercase) for i in range(9))
         username = 'User_' + ''.join(choice(ascii_letters) for i in range(6))
         try:
@@ -95,8 +98,8 @@ class UsersViewSet(ModelViewSet):
     lookup_field = 'username'
     permission_classes = (SiteAdminPermission,)
 
-    def perform_create(self, serializer):
-        serializer.save()
+    # def perform_create(self, serializer):
+    #     serializer.save(data=self.request.data)
 
     def perform_update(self, serializer):
         serializer.save(data=self.request.data)
