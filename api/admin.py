@@ -5,7 +5,7 @@ from api.model.feedback import Comment, Review
   
 class CommentAdmin(admin.ModelAdmin):  
       
-    list_display = ("review", "text", "created", "author", "pk")   
+    list_display = ("review", "text",  "author", "pk")   
     
 
 

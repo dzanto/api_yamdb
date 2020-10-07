@@ -14,13 +14,13 @@ class CategoryListCreateAPIView(generics.ListCreateAPIView):
     serializer_class = CategorySerializer
     filter_backends = [filters.SearchFilter]
     search_fields = ['=name']
-    permission_classes = [AdminResourcePermission]
+    permission_classes = [IsAuthenticatedOrReadOnly, AdminResourcePermission]
 
 
 class CategoryDestroyAPIView(generics.DestroyAPIView):
     queryset = Categories.objects.all()
     serializer_class = CategorySerializer
-    permission_classes = [AdminResourcePermission]
+    permission_classes = [IsAuthenticatedOrReadOnly, AdminResourcePermission]
     lookup_field = 'slug'
 
 
@@ -29,13 +29,14 @@ class GenreListCreateAPIView(generics.ListCreateAPIView):
     serializer_class = GenreSerializer
     filter_backends = [filters.SearchFilter]
     search_fields = ['=name']
-    permission_classes = [AdminResourcePermission]
+    permission_classes = [IsAuthenticatedOrReadOnly, AdminResourcePermission]
 
 
 class GenreDestroyAPIView(generics.DestroyAPIView):
     queryset = Genres.objects.all()
     serializer_class = GenreSerializer
     lookup_field = 'slug'
+    permission_classes = [IsAuthenticatedOrReadOnly, AdminResourcePermission]
 
 
 class TitleViewSet(viewsets.ModelViewSet):
