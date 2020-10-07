@@ -1,5 +1,5 @@
 from rest_framework import permissions
-from rest_framework.permissions import BasePermission
+from rest_framework.permissions import BasePermission, SAFE_METHODS
 
 
 class ReviewCreatePermission(BasePermission):
@@ -40,3 +40,17 @@ class IsOwnerOrReadOnly(BasePermission):
  
         # Write permissions are only allowed to the owner of the snippet. 
         return obj.author == request.user 
+
+
+class IsAdminOrReadOnly(BasePermission):
+    message = 'Только администратор может это делать!'
+
+    def has_permission(self, request, view):
+        if request.method in SAFE_METHODS:
+            return True
+        if not request.user or not request.user.is_authenticated:
+            return False
+        return bool(
+            (request.user.role == 'admin') or
+            request.user.is_superuser
+        )
