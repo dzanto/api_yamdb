@@ -1,7 +1,7 @@
 from rest_framework import viewsets, filters, permissions, generics, status
 from rest_framework.viewsets import ViewSetMixin
 from django.shortcuts import get_object_or_404
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.exceptions import ParseError
 from django.db import IntegrityError
 
@@ -9,16 +9,22 @@ from api.serializer.feedback import CommentSerializer, ReviewSerializer, UserSer
 from api.model.feedback import Comment, Review, User
 from api.model.content import Titles
 from api.permissions import IsOwnerOrReadOnly
-from api.permissions import AdminResourcePermission, StaffResourcePermission, ReviewCreatePermission
+from api.permissions import AdminResourcePermission, StaffResourcePermission, ReviewCreatePermission, SiteAdminPermission
 
 
 class CommentViewSet(viewsets.ModelViewSet): 
     serializer_class = CommentSerializer
     permission_classes = [
-        AdminResourcePermission,
-        StaffResourcePermission,
-        IsOwnerOrReadOnly,
+        
+        SiteAdminPermission
+        
+       
     ]
+    
+    def get_permissions(self):
+        if self.request.method == 'PATCH':
+            self.permission_classes = (IsOwnerOrReadOnly,)
+        return super(CommentViewSet, self).get_permissions()
 
     def get_queryset(self): 
         return Comment.objects.filter(review=self.kwargs['review_pk']) 
@@ -31,15 +37,15 @@ class CommentViewSet(viewsets.ModelViewSet):
 class ReviewViewSet(viewsets.ModelViewSet): 
     serializer_class = ReviewSerializer
     permission_classes = [
-        ReviewCreatePermission,
-        StaffResourcePermission,
-        AdminResourcePermission,
+        
+        SiteAdminPermission
+        
     ]
-
     def get_permissions(self):
-        if self.action == 'create':
-            self.permission_classes = [IsAuthenticatedOrReadOnly]
-
+        if self.request.method == 'PATCH':
+            self.permission_classes = (IsOwnerOrReadOnly,)
+        return super(ReviewViewSet, self).get_permissions()
+   
     def get_queryset(self): 
         return Review.objects.filter(title=self.kwargs['id']) 
          
