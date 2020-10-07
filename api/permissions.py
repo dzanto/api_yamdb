@@ -43,7 +43,6 @@ class IsOwnerOrReadOnly(BasePermission):
 
 
 class IsAdminOrReadOnly(BasePermission):
-    message = 'Только администратор может это делать!'
 
     def has_permission(self, request, view):
         if request.method in SAFE_METHODS:
