@@ -28,7 +28,6 @@ from api.filters import TitleFilter
 
 # CONTENT
 
-
 class CategoryListCreateAPIView(generics.ListCreateAPIView):
     queryset = Categories.objects.all()
     serializer_class = CategorySerializer
@@ -73,7 +72,6 @@ class TitleViewSet(viewsets.ModelViewSet):
 
 
 # REVIEW
-
 
 class CommentViewSet(viewsets.ModelViewSet):
     serializer_class = CommentSerializer

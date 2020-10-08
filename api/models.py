@@ -1,13 +1,11 @@
 from django.contrib.auth import get_user_model
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
-import datetime
 
 User = get_user_model()
 
 
 # CONTENT
-
 
 class Categories(models.Model):
     name = models.CharField(max_length=200)
@@ -50,7 +48,6 @@ class Titles(models.Model):
 
 
 # REVIEW
-
 
 class Review(models.Model):
     text = models.TextField()
