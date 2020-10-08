@@ -5,7 +5,6 @@ from api.models import Categories, Genres, Titles, Comment, Review, User
 
 # CONTENT
 
-
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         fields = ['name', 'slug']
@@ -45,7 +44,6 @@ class TitleReadSerializer(serializers.ModelSerializer):
 
 
 # REVIEW
-
 
 class CommentSerializer(serializers.ModelSerializer):
     author = serializers.SlugRelatedField(
