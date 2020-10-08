@@ -17,8 +17,7 @@ from api.serializers import (
     TitleWriteSerializer,
 )
 
-from api.model.feedback import Comment, Review, User
-from api.model.content import Categories, Genres, Titles
+from api.models import Categories, Genres, Titles, Comment, Review, User
 
 from api.permissions import IsOwnerOrReadOnly
 from api.permissions import AdminResourcePermission, StaffResourcePermission, ReviewCreatePermission, \

@@ -1,5 +1,5 @@
 from django_filters import rest_framework as filters
-from api.model.content import Titles
+from api.models import Titles
 
 
 class GenreCategoryFilter(filters.FilterSet):

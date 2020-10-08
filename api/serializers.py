@@ -1,7 +1,6 @@
 from rest_framework import serializers
 
-from api.model.content import Categories, Genres, Titles
-from api.model.feedback import Comment, Review, User
+from api.models import Categories, Genres, Titles, Comment, Review, User
 
 
 # CONTENT
