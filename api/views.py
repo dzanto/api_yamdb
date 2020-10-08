@@ -7,8 +7,15 @@ from rest_framework.exceptions import ParseError
 from rest_framework import viewsets, filters, generics
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
-from api.serializer.feedback import CommentSerializer, ReviewSerializer, UserSerializer
-from api.serializer.content import CategorySerializer, GenreSerializer, TitleReadSerializer, TitleWriteSerializer
+from api.serializers import (
+    CommentSerializer,
+    ReviewSerializer,
+    UserSerializer,
+    CategorySerializer,
+    GenreSerializer,
+    TitleReadSerializer,
+    TitleWriteSerializer,
+)
 
 from api.model.feedback import Comment, Review, User
 from api.model.content import Categories, Genres, Titles
