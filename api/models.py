@@ -1,14 +1,13 @@
 from django.contrib.auth import get_user_model
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
+import datetime
 
 User = get_user_model()
 
 
-# CONTENT
-
-class Categories(models.Model):
-    name = models.CharField(max_length=200)
+class Category(models.Model):
+    name = models.CharField(max_length=200, verbose_name='Name')
     slug = models.CharField(max_length=200, unique=True)
 
     def __str__(self):
@@ -18,8 +17,8 @@ class Categories(models.Model):
         ordering = ['-id']
 
 
-class Genres(models.Model):
-    name = models.CharField(max_length=200)
+class Genre(models.Model):
+    name = models.CharField(max_length=200, verbose_name='Name')
     slug = models.CharField(max_length=200, unique=True)
 
     def __str__(self):
@@ -29,15 +28,22 @@ class Genres(models.Model):
         ordering = ['-id']
 
 
-class Titles(models.Model):
-    name = models.CharField(max_length=200)
-    year = models.PositiveIntegerField()
-    description = models.TextField()
-    genre = models.ManyToManyField(Genres)
+class Title(models.Model):
+    name = models.CharField(max_length=200, verbose_name='Name')
+    year = models.PositiveIntegerField(
+        verbose_name='Year',
+        validators=[
+            MinValueValidator(0),
+            MaxValueValidator(datetime.date.today().year)
+        ]
+    )
+    description = models.TextField(verbose_name='Description')
+    genre = models.ManyToManyField(Genre, verbose_name='Genre')
     category = models.ForeignKey(
-        Categories,
+        Category,
         on_delete=models.SET_NULL,
-        related_name="titles", null=True
+        related_name="titles", null=True,
+        verbose_name='Category'
     )
 
     def __str__(self):
@@ -47,12 +53,10 @@ class Titles(models.Model):
         ordering = ['-id']
 
 
-# REVIEW
-
 class Review(models.Model):
     text = models.TextField()
     score = models.PositiveIntegerField(validators=[MinValueValidator(0), MaxValueValidator(10, message="cool")])
-    title = models.ForeignKey(Titles, blank=True, on_delete=models.CASCADE, related_name="reviews")
+    title = models.ForeignKey(Title, blank=True, on_delete=models.CASCADE, related_name="reviews")
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="review_author")
     pub_date = models.DateTimeField("date published", auto_now_add=True)
 

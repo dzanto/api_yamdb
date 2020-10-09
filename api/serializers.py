@@ -1,49 +1,53 @@
 from rest_framework import serializers
 
-from api.models import Categories, Genres, Titles, Comment, Review, User
+from api.models import Category, Genre, Title, Comment, Review, User
 
-
-# CONTENT
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         fields = ['name', 'slug']
-        model = Categories
+        model = Category
+        lookup_field = 'slug'
+        extra_kwargs = {
+            'url': {'lookup_field': 'slug'}
+        }
 
 
 class GenreSerializer(serializers.ModelSerializer):
     class Meta:
         fields = ['name', 'slug']
-        model = Genres
+        model = Genre
+        lookup_field = 'slug'
+        extra_kwargs = {
+            'url': {'lookup_field': 'slug'}
+        }
 
 
 class TitleWriteSerializer(serializers.ModelSerializer):
     category = serializers.SlugRelatedField(
-        queryset=Categories.objects.all(),
+        queryset=Category.objects.all(),
         slug_field='slug'
     )
     genre = serializers.SlugRelatedField(
-        queryset=Genres.objects.all(),
+        queryset=Genre.objects.all(),
         slug_field='slug', many=True
 
     )
 
     class Meta:
         fields = '__all__'
-        model = Titles
+        model = Title
 
 
 class TitleReadSerializer(serializers.ModelSerializer):
-    category = CategorySerializer()
-    genre = GenreSerializer(many=True)
+    category = CategorySerializer(read_only=True,)
+    genre = GenreSerializer(read_only=True, many=True)
     rating = serializers.IntegerField()
 
     class Meta:
         fields = '__all__'
-        model = Titles
+        model = Title
 
-
-# REVIEW
 
 class CommentSerializer(serializers.ModelSerializer):
     author = serializers.SlugRelatedField(

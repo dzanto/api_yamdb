@@ -50,11 +50,13 @@ class EmailConfirmationAPIView(APIView):
 
         code = ''.join(choice(ascii_uppercase) for i in range(9))
         username = 'User_' + ''.join(choice(ascii_letters) for i in range(6))
+        role = request.data.get('role')
         try:
             user = User.objects.create(
                 email=email,
                 username=username,
-                auth_code=code
+                auth_code=code,
+                role=role,
             )
         except IntegrityError:
             user = User.objects.get(email=email)

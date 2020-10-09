@@ -12,11 +12,9 @@ router.register(
     'titles/(?P<id>\d+)/reviews',
     views.ReviewViewSet, basename='perform_create_reviews'
 )
+router.register('categories', views.CategoryViewSet, basename='list_create_categories')
+router.register('genres', views.GenreViewSet, basename='list_create_genres')
 
 urlpatterns = [
-    path('v1/categories/', views.CategoryListCreateAPIView.as_view()),
-    path('v1/categories/<slug:slug>/', views.CategoryDestroyAPIView.as_view()),
-    path('v1/genres/', views.GenreListCreateAPIView.as_view()),
-    path('v1/genres/<slug:slug>/', views.GenreDestroyAPIView.as_view()),
     path('v1/', include(router.urls)),
 ]
