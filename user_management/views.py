@@ -11,10 +11,11 @@ from rest_framework.permissions import AllowAny
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.generics import get_object_or_404
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework.decorators import action
 
 from .models import User
 from .permissions import SiteAdminPermission
-from .serializers import UserSerializer, UserExtendedSerializer
+from .serializers import UserSerializer
 
 
 def get_tokens_for_user(user):
@@ -69,7 +70,6 @@ class EmailConfirmationAPIView(APIView):
             message='Сохраните код! Он понадобится вам для получения токена.\n'
                     f'confirmation_code: {code}\n'
                     f'username: {username}',
-            from_email=None,
             recipient_list=[email],
             fail_silently=False,
         )
@@ -77,31 +77,29 @@ class EmailConfirmationAPIView(APIView):
                                     f"{email}"}, status.HTTP_200_OK)
 
 
-class MyProfileAPIView(APIView):
-
-    def get(self, request):
-        if not self.request.user.is_authenticated:
-            return Response(status=status.HTTP_401_UNAUTHORIZED)
-        user = get_object_or_404(User, username=request.user.username)
-        serializer = UserSerializer(user)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
-    def patch(self, request):
-        if not self.request.user.is_authenticated:
-            return Response(status=status.HTTP_403_FORBIDDEN)
-        user = get_object_or_404(User, username=request.user.username)
-        serializer = UserSerializer(user, data=request.data, partial=True)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
 class UsersViewSet(ModelViewSet):
     queryset = User.objects.all()
-    serializer_class = UserExtendedSerializer
+    serializer_class = UserSerializer
     lookup_field = 'username'
-    permission_classes = [SiteAdminPermission,]
+    permission_classes = [IsAuthenticated, SiteAdminPermission]
+
+    def get_permissions(self):
+        if self.action in ('profile', None):
+            return [IsAuthenticated()]
+        return super().get_permissions()
 
     def perform_update(self, serializer):
         serializer.save(data=self.request.data)
+
+    @action(methods=['GET', 'PATCH'], detail=True)
+    def profile(self, request):
+        if request.method == 'PATCH':
+            user = get_object_or_404(User, username=request.user.username)
+            serializer = UserSerializer(user, data=request.data, partial=True)
+            if serializer.is_valid():
+                serializer.save(email=user.email, role=user.role)
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        serializer = self.get_serializer(request.user)
+        return Response(serializer.data, status=status.HTTP_200_OK)
