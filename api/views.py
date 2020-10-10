@@ -76,11 +76,7 @@ class TitleViewSet(viewsets.ModelViewSet):
 
 class CommentViewSet(viewsets.ModelViewSet):
     serializer_class = CommentSerializer
-    permission_classes = [
-
-        SiteAdminPermission
-
-    ]
+    permission_classes = [SiteAdminPermission]
 
     def get_permissions(self):
         if self.request.method == 'PATCH':
@@ -88,18 +84,17 @@ class CommentViewSet(viewsets.ModelViewSet):
         return super(CommentViewSet, self).get_permissions()
 
     def get_queryset(self):
-        return Comment.objects.filter(review=self.kwargs['review_pk'])
+        comment = get_object_or_404(Review, pk=self.kwargs['review_pk'], title__id=self.kwargs['id'])
+        return comment.comments.all()
 
     def perform_create(self, serializer):
-        review = get_object_or_404(Review, pk=self.kwargs['review_pk'])
+        review = get_object_or_404(Review, pk=self.kwargs['review_pk'], title__id=self.kwargs['id'])
         serializer.save(author=self.request.user, review=review)
 
 
 class ReviewViewSet(viewsets.ModelViewSet):
     serializer_class = ReviewSerializer
-    permission_classes = [
-        SiteAdminPermission
-    ]
+    permission_classes = [SiteAdminPermission]
 
     def get_permissions(self):
         if self.request.method == 'PATCH':
@@ -107,7 +102,8 @@ class ReviewViewSet(viewsets.ModelViewSet):
         return super(ReviewViewSet, self).get_permissions()
 
     def get_queryset(self):
-        return Review.objects.filter(title=self.kwargs['id'])
+        review = get_object_or_404(Title, id=self.kwargs['id'])
+        return review.reviews.all()
 
     def perform_create(self, serializer):
         title = get_object_or_404(Title, pk=self.kwargs['id'])
