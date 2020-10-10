@@ -7,8 +7,8 @@ router_v1 = DefaultRouter()
 router_v1.register('users', views.UsersViewSet, basename='users')
 
 urlpatterns = [
-    path('v1/auth/email/', views.EmailConfirmationAPIView.as_view()),
-    path('v1/auth/token/', views.GetTokenAPIView.as_view()),
+    path('v1/auth/email/', views.email_confirmation),
+    path('v1/auth/token/', views.get_token),
     path('v1/users/me/', views.UsersViewSet.as_view(
         actions={'get': 'profile', 'patch': 'profile'}
     )),
