@@ -55,9 +55,18 @@ class Title(models.Model):
 
 class Review(models.Model):
     text = models.TextField()
-    score = models.PositiveIntegerField(validators=[MinValueValidator(0), MaxValueValidator(10, message="cool")])
-    title = models.ForeignKey(Title, blank=True, on_delete=models.CASCADE, related_name="reviews")
-    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="review_author")
+    score = models.PositiveIntegerField(
+        validators=[MinValueValidator(0), 
+        MaxValueValidator(10, message="cool")]
+    )
+    title = models.ForeignKey(
+        Title, blank=True, on_delete=models.CASCADE, 
+        related_name="reviews"
+    )
+    author = models.ForeignKey(
+        User, on_delete=models.CASCADE, 
+        related_name="review_author"
+    )
     pub_date = models.DateTimeField("date published", auto_now_add=True)
 
     def __str__(self):
@@ -65,7 +74,15 @@ class Review(models.Model):
 
 
 class Comment(models.Model):
-    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="comments")
-    review = models.ForeignKey(Review, on_delete=models.CASCADE, related_name="comments")
+    author = models.ForeignKey(
+        User, on_delete=models.CASCADE, 
+        related_name="comments"
+    )
+    review = models.ForeignKey(
+        Review, on_delete=models.CASCADE, 
+        related_name="comments"
+    )
     text = models.TextField()
-    pub_date = models.DateTimeField("Дата добавления", auto_now_add=True, db_index=True)
+    pub_date = models.DateTimeField(
+        "Дата добавления", auto_now_add=True, db_index=True
+    )

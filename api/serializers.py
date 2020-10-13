@@ -47,6 +47,7 @@ class TitleReadSerializer(serializers.ModelSerializer):
         fields = '__all__'
         model = Title
 
+
 class CommentSerializer(serializers.ModelSerializer):
     author = serializers.SlugRelatedField(
         many=False,
@@ -77,14 +78,16 @@ class ReviewSerializer(serializers.ModelSerializer):
         default=serializers.CurrentUserDefault()
     )
 
-    def create(self, validated_data):
-        title = validated_data['title']
-        author = validated_data['author']
+    def validate(self, data):
+        title = self.context['request'].parser_context['kwargs']['id']
+        author = self.context['request'].user
         message = 'Author already made review on this title'
 
         if Review.objects.filter(title=title, author=author).exists():
-            raise serializers.ValidationError(message)
-        return Review.objects.create(**validated_data)
+            if self.context['request'].method != "PATCH":
+                raise serializers.ValidationError(message)
+            return data
+        return data
 
     class Meta:
         fields = ('id', 'text', 'score', 'title', 'author', 'pub_date')

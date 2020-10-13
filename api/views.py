@@ -20,8 +20,8 @@ from api.serializers import (
 from api.models import Category, Genre, Title, Comment, Review, User
 
 from api.permissions import IsOwnerOrReadOnly
-from api.permissions import AdminResourcePermission, StaffResourcePermission, ReviewCreatePermission, \
-    SiteAdminPermission
+from api.permissions import AdminResourcePermission, \
+    SiteAdminPermission, StaffResourcePermission, ReviewCreatePermission
 
 from api.filters import TitleFilter
 
@@ -84,11 +84,17 @@ class CommentViewSet(viewsets.ModelViewSet):
         return super(CommentViewSet, self).get_permissions()
 
     def get_queryset(self):
-        comment = get_object_or_404(Review, pk=self.kwargs['review_pk'], title__id=self.kwargs['id'])
+        comment = get_object_or_404(
+            Review, pk=self.kwargs['review_pk'],
+            title__id=self.kwargs['id']
+        )
         return comment.comments.all()
 
     def perform_create(self, serializer):
-        review = get_object_or_404(Review, pk=self.kwargs['review_pk'], title__id=self.kwargs['id'])
+        review = get_object_or_404(Review, 
+        pk=self.kwargs['review_pk'], 
+        title__id=self.kwargs['id']
+        )
         serializer.save(author=self.request.user, review=review)
 
 
@@ -107,12 +113,8 @@ class ReviewViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         title = get_object_or_404(Title, pk=self.kwargs['id'])
-
-        try:
-            serializer.save(author=self.request.user, title=title)
-        except IntegrityError:
-            raise ParseError(detail="Автор уже отставил свой обзор на этот пост")
-
+        serializer.save(author=self.request.user, title=title)
+        
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
