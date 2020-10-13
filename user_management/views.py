@@ -1,7 +1,6 @@
 from random import choice
 from string import ascii_letters
 
-from django.db import IntegrityError
 from django.core.mail import send_mail
 from django.contrib.auth.tokens import default_token_generator
 from rest_framework import status
@@ -16,6 +15,7 @@ from rest_framework.decorators import action, api_view, permission_classes
 from .models import User
 from .permissions import SiteAdminPermission
 from .serializers import UserSerializer
+from django.conf import settings
 
 generator = default_token_generator
 
@@ -42,16 +42,12 @@ def email_confirmation(request):
     email = request.data.get('email')
     if not email:
         return Response(status.HTTP_400_BAD_REQUEST)
-    username = 'User_' + ''.join(choice(ascii_letters) for i in range(6))
-    role = request.data.get('role')
 
-    try:
-        user = User.objects.create(email=email,
-                                   username=username,
-                                   role=role,)
-    except IntegrityError:
-        user = User.objects.get(email=email)
-        username = user.username
+    user = User.objects.get_or_create(email=email)[0]
+    if not user.username:
+        user.username = 'User_' + ''.join(choice(ascii_letters) for i in range(6))
+    username = user.username
+
     user.save()
     code = generator.make_token(user)
 
@@ -60,7 +56,7 @@ def email_confirmation(request):
         message='Сохраните код! Он понадобится вам для получения токена.\n'
                 f'confirmation_code:\n{code}\n'
                 f'username: {username}',
-        from_email=None,
+        from_email=settings.DEFAULT_FROM_EMAIL,
         recipient_list=[email],
         fail_silently=False,
     )
