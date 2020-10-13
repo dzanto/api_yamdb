@@ -15,15 +15,15 @@ class AdminResourcePermission(BasePermission):
 
     def has_permission(self, request, view):
         if request.method in ('DELETE', 'POST', 'PATCH') and request.user.is_authenticated:
-            return request.user.is_staff or request.user.role == 'admin'
+            return request.user.is_superuser or request.user.is_admin
         return True
 
 
 class StaffResourcePermission(BasePermission):
 
     def has_permission(self, request, view):
-        if request.method in ('DELETE', 'PATCH'):
-            return request.user.is_staff or request.user.role == 'moderator'
+        if request.method in ('DELETE', 'PATCH') and request.user.is_authenticated:
+            return request.user.is_superuser or request.user.is_moderator
         return True
 
 
@@ -41,14 +41,15 @@ class IsOwnerOrReadOnly(BasePermission):
         # Write permissions are only allowed to the owner of the snippet. 
         return obj.author == request.user 
 
+
 class SiteAdminPermission(permissions.BasePermission):
     def has_permission(self, request, obj):
 
-        if request.method  ==  'GET':
-            return request.user.is_authenticated  or  not request.user.is_authenticated
+        if request.method == 'GET':
+            return request.user.is_authenticated or not request.user.is_authenticated
         if not request.user or not request.user.is_authenticated:
             return False
-        if request.method  ==  'POST' :
+        if request.method == 'POST':
             return request.user.is_authenticated
 
-        return ((request.user.role == 'admin') or (request.user.is_superuser) or (request.user.role == 'moderator'))
+        return request.user.is_superuser or request.user.is_admin or request.user.is_moderator
