@@ -5,7 +5,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('api', '0004_auto_20201009_0928'),
     ]
@@ -14,6 +13,9 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='title',
             name='year',
-            field=models.PositiveIntegerField(validators=[django.core.validators.MinValueValidator(0), django.core.validators.MaxValueValidator(2020)], verbose_name='Year'),
+            field=models.PositiveIntegerField(
+                validators=[django.core.validators.MinValueValidator(0),
+                            django.core.validators.MaxValueValidator(2020)],
+                verbose_name='Year'),
         ),
     ]

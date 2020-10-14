@@ -2,6 +2,7 @@ from rest_framework import serializers
 
 from api.models import Category, Genre, Title, Comment, Review, User
 
+
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         fields = ['name', 'slug']
@@ -39,7 +40,7 @@ class TitleWriteSerializer(serializers.ModelSerializer):
 
 
 class TitleReadSerializer(serializers.ModelSerializer):
-    category = CategorySerializer(read_only=True,)
+    category = CategorySerializer(read_only=True, )
     genre = GenreSerializer(read_only=True, many=True)
     rating = serializers.IntegerField()
 

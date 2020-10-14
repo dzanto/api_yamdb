@@ -45,7 +45,8 @@ def email_confirmation(request):
 
     user = User.objects.get_or_create(email=email)[0]
     if not user.username:
-        user.username = 'User_' + ''.join(choice(ascii_letters) for i in range(6))
+        user.username = 'User_' + ''.join(
+            choice(ascii_letters) for i in range(6))
     username = user.username
 
     user.save()
@@ -86,7 +87,8 @@ class UsersViewSet(ModelViewSet):
             if serializer.is_valid():
                 serializer.save(email=user.email, role=user.role)
                 return Response(serializer.data, status=status.HTTP_200_OK)
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response(serializer.errors,
+                            status=status.HTTP_400_BAD_REQUEST)
 
         serializer = self.get_serializer(request.user)
         return Response(serializer.data, status=status.HTTP_200_OK)
